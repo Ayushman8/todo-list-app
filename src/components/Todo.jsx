@@ -7,24 +7,30 @@ const Todo = () => {
 
   const [todoList, setTodoList] = useState([]);
   const inputRef = useRef();
-  
+
   const add = () => {
 
     const inputText = inputRef.current.value.trim();
 
-    if(inputText === ""){
+    if (inputText === "") {
       alert("Enter a task");
       return null;
     }
-    
+
     const newTodo = {
       id: Date.now(),
       text: inputText,
       isComplete: false
     }
 
-    setTodoList((prev)=> [...prev, newTodo]);
+    setTodoList((prev) => [...prev, newTodo]);
     inputRef.current.value = "";
+  }
+
+  const deleteTodo = (id) => {
+    setTodoList((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id!==id);
+    })
   }
 
   return (
@@ -35,13 +41,13 @@ const Todo = () => {
       </div>
 
       <div className='flex items-center bg-gray-200 rounded-full my-7'>
-        <input ref={inputRef} className='border-0 outline-none bg-transparent h-10 flex-1 pl-6 pr-2 placeholder:text-slate-600' type="text" placeholder='Add your task'/>
+        <input ref={inputRef} className='border-0 outline-none bg-transparent h-10 flex-1 pl-6 pr-2 placeholder:text-slate-600' type="text" placeholder='Add your task' />
         <button onClick={add} className='bg-orange-500 border-none rounded-full w-28 h-14 text-white text-lg font-medium cursor-pointer'>ADD</button>
       </div>
 
       <div>
-        {todoList.map((item,index)=> {
-          return <TodoList key={index} text={item.text}/>
+        {todoList.map((item, index) => {
+          return <TodoList key={index} text={item.text} id={item.id} isComplete={item.isComplete} deleteTodo={deleteTodo}/>
         })}
       </div>
     </div>
