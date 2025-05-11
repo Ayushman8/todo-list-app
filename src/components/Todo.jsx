@@ -5,7 +5,7 @@ import TodoList from './TodoList'
 
 const Todo = () => {
 
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState(localStorage.getItem("todos")?JSON.parse(localStorage.getItem("todos")):[]);
   const inputRef = useRef();
 
   const add = () => {
@@ -45,7 +45,7 @@ const Todo = () => {
   }
   
   useEffect(()=>{
-    console.log(todoList)
+    localStorage.setItem("todos",JSON.stringify(todoList));
   },[todoList])
 
   return (
